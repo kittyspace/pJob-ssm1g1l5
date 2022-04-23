@@ -57,6 +57,29 @@ public class FileController{
 		}
 		return R.ok().put("file", fileName);
 	}
+
+	@RequestMapping("/healthUpload")
+	public R uploadHeath(@RequestParam("file") MultipartFile file, String type,HttpServletRequest request) throws Exception {
+		if (file.isEmpty()) {
+			throw new EIException("上传文件不能为空");
+		}
+		String fileExt = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")+1);
+		String fileName = new Date().getTime()+"."+fileExt;
+		File dest = new File(request.getSession().getServletContext().getRealPath("/upload")+"/"+fileName);
+		file.transferTo(dest);
+		if(StringUtils.isNotBlank(type) && type.equals("1")) {
+			ConfigEntity configEntity = configService.selectOne(new EntityWrapper<ConfigEntity>().eq("name", "heathFile"));
+			if(configEntity==null) {
+				configEntity = new ConfigEntity();
+				configEntity.setName("heathFile");
+				configEntity.setValue(fileName);
+			} else {
+				configEntity.setValue(fileName);
+			}
+			configService.insertOrUpdate(configEntity);
+		}
+		return R.ok().put("file", fileName);
+	}
 	
 	/**
 	 * 下载文件

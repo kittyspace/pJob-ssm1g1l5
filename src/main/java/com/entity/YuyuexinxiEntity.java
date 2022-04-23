@@ -68,7 +68,20 @@ public class YuyuexinxiEntity<T> implements Serializable {
 	 */
 					
 	private String xiangguantupian;
-	
+	/**
+	 * 健康码图片
+	 */
+
+	private String healthImg;
+
+	public String getHealthImg() {
+		return healthImg;
+	}
+
+	public void setHealthImg(String healthImg) {
+		this.healthImg = healthImg;
+	}
+
 	/**
 	 * 地址
 	 */
@@ -106,6 +119,8 @@ public class YuyuexinxiEntity<T> implements Serializable {
 	@JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd")
 	@DateTimeFormat 		
 	private Date shenqingriqi;
+
+
 	
 	/**
 	 * 是否审核
